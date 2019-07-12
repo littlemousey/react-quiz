@@ -7,7 +7,8 @@ const defaultState = {
 const quizReducer = (state = defaultState, action) => {
   switch (action.type) {
     case ACTIONS.Types.ADD_QUESTION: {
-      return [...state, action.payload];
+      console.log("action: ", action);
+      return { ...state, questions: action.question };
     }
 
     default:

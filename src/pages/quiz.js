@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import ACTIONS from "../modules/action";
 import { connect } from "react-redux";
-import axios from "axios";
 
 const mapStateToProps = state => ({
   questions: state.questions
@@ -16,7 +15,7 @@ class Quiz extends Component {
     questions: []
   };
 
-  componentDidMount() {
+  componentWillMount() {
     this.props.setQuestions();
   }
 
@@ -25,7 +24,7 @@ class Quiz extends Component {
       <div>
         <h1>Quiz</h1>
         <ul>
-          {this.state.questions.map(item => {
+          {this.props.questions.map(item => {
             return <li key={item.question}>{item.question}</li>;
           })}
         </ul>

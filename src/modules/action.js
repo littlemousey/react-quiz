@@ -1,3 +1,5 @@
+import Axios from "axios";
+
 // types of action
 const Types = {
   ADD_QUESTION: "ADD_QUESTION"
@@ -8,16 +10,14 @@ const addQuestion = question => ({
   question
 });
 
-async function getQuestions() {
-  return await fetch("https://opentdb.com/api.php?amount=10");
+function getQuestions() {
+  return Axios.get("https://opentdb.com/api.php?amount=10");
 }
 
 function setQuestions() {
   return function(dispatch) {
     return getQuestions().then(result =>
-      result.data.results.forEach(item => {
-        dispatch(addQuestion(item));
-      })
+      dispatch(addQuestion(result.data.results))
     );
   };
 }
