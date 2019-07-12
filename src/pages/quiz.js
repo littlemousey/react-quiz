@@ -23,11 +23,11 @@ class Quiz extends Component {
     return (
       <div>
         <h1>Quiz</h1>
-        <ul>
+        <ol>
           {this.props.questions.map(item => {
             return <li key={item.question}>{item.question}</li>;
           })}
-        </ul>
+        </ol>
       </div>
     );
   }

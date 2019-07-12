@@ -1,4 +1,5 @@
 import Axios from "axios";
+import decodeHTML from "../middleware/decodeHTML";
 
 // types of action
 const Types = {
@@ -17,7 +18,12 @@ function getQuestions() {
 function setQuestions() {
   return function(dispatch) {
     return getQuestions().then(result =>
-      dispatch(addQuestion(result.data.results))
+      result.data.results.forEach(item => {
+        const question = decodeHTML(item.question); // sanatize question
+        const sanatizedItem = { ...item, question };
+        console.log("sanatized: ", sanatizedItem);
+        dispatch(addQuestion(sanatizedItem));
+      })
     );
   };
 }
