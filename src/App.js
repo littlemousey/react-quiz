@@ -1,26 +1,21 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import "./App.css";
+import Quiz from "./pages/quiz";
+import { Provider as ReduxProvider } from "react-redux";
+import configureStore from "./modules/store";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const reduxStore = configureStore(window.REDUX_INITIAL_DATA);
+
+class App extends Component {
+  render() {
+    return (
+      <ReduxProvider store={reduxStore}>
+        <div className="App">
+          <Quiz />
+        </div>
+      </ReduxProvider>
+    );
+  }
 }
 
 export default App;
