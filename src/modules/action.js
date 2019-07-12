@@ -3,12 +3,18 @@ import decodeHTML from "../middleware/decodeHTML";
 
 // types of action
 const Types = {
-  ADD_QUESTION: "ADD_QUESTION"
+  ADD_QUESTION: "ADD_QUESTION",
+  CHANGE_NAME: "CHANGE_NAME"
 };
 // actions
 const addQuestion = question => ({
   type: Types.ADD_QUESTION,
   question
+});
+
+const changeName = name => ({
+  type: Types.CHANGE_NAME,
+  name
 });
 
 function getQuestions() {
@@ -29,6 +35,7 @@ function setQuestions() {
 }
 
 export default {
+  changeName,
   setQuestions,
   Types
 };
