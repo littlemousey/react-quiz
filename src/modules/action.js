@@ -7,9 +7,9 @@ const Types = {
   ADD_QUESTION: "ADD_QUESTION",
   FETCH_QUESTIONS_SUC: "FETCH_QUESTIONS_SUC",
   FETCH_QUESTIONS_ERR: "FETCH_QUESTIONS_ERR",
-  CORRECT_ANSWER: "CORRECT_ANSWER",
-  WRONG_ANSWER: "WRONG_ANSWER",
-  SET_QUIZ_TYPE: "SET_QUIZ_TYPE"
+  ANSWER: "ANSWER",
+  SET_QUIZ_TYPE: "SET_QUIZ_TYPE",
+  SET_GIF: "SET_GIF"
 };
 
 const setName = name => ({
@@ -54,15 +54,22 @@ function fetchQuestions() {
   };
 }
 
+async function fetchGif() {
+  const giphyData = await Axios.get(
+    "https://api.giphy.com/v1/gifs/search?api_key=dQVDGFWr8t7MnnyMg1Jbmb2pNlTD3pOj&q=wrong&limit=25&offset=0&rating=G&lang=en"
+  );
+  const max = giphyData.data.pagination.count - 1;
+  const randomNumber = Math.floor(Math.random() * (max - 0 + 1)) + 0;
+  return giphyData.data.data[randomNumber].images.fixed_height.url;
+}
+
 function answerQuestion(questionIndex, answer) {
-  return function(dispatch, getState) {
-    const questions = getState().questions.data;
-    const question = questions[questionIndex];
-    if (question.correct_answer === answer) {
-      dispatch({ type: Types.CORRECT_ANSWER, questionIndex });
-    } else {
-      dispatch({ type: Types.WRONG_ANSWER, questionIndex });
-    }
+  return async function(dispatch) {
+    dispatch({ type: Types.ANSWER, questionIndex, answer });
+
+    const gifUrl = await fetchGif();
+
+    dispatch({ type: Types.SET_GIF, gifUrl });
   };
 }
 

@@ -9,15 +9,13 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setQuizType: quizType => dispatch(ACTIONS.setName(quizType))
+  setQuizType: quizType => dispatch(ACTIONS.setQuizType(quizType))
 });
 
 class GameConfig extends Component {
-  state = { quizType: "" };
-
   handleClick = type => {
-    this.setState({ quizType: type });
-    this.setQuizType(this.state.quizType);
+    this.props.setQuizType(type);
+    this.props.history.push("/quiz");
   };
 
   render() {

@@ -19,12 +19,10 @@ class Intro extends Component {
 
   handleClick = () => {
     this.props.setName(this.state.name);
-    // this.setState({ nextPage: true });
     this.props.history.push("/options");
   };
 
   render() {
-    console.log("router: ", this.props.history);
     return (
       <div>
         <h2>Quiz time!</h2>
@@ -45,7 +43,6 @@ class Intro extends Component {
             Go
           </Button>
         </div>
-        {/* {this.state.nextPage && <Redirect to="/options" />} */}
       </div>
     );
   }

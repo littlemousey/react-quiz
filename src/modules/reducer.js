@@ -8,7 +8,8 @@ const defaultState = {
     loading: false,
     data: {}
   },
-  currentQuestion: 0
+  currentQuestion: 0,
+  gifUrl: ""
 };
 
 const quizReducer = (state = defaultState, action) => {
@@ -35,24 +36,11 @@ const quizReducer = (state = defaultState, action) => {
       return { ...state, namePlayer: action.name };
     }
 
-    case ACTIONS.Types.CORRECT_ANSWER: {
-      return {
-        ...state,
-        currentQuestion: action.questionIndex + 1,
-        questions: {
-          ...state.questions,
-          data: {
-            ...state.questions.data,
-            [action.questionIndex]: {
-              ...state.questions.data[action.questionIndex],
-              isCorrect: true
-            }
-          }
-        }
-      };
+    case ACTIONS.Types.SET_GIF: {
+      return { ...state, gifUrl: action.gifUrl };
     }
 
-    case ACTIONS.Types.WRONG_ANSWER: {
+    case ACTIONS.Types.ANSWER: {
       return {
         ...state,
         questions: {
@@ -61,7 +49,7 @@ const quizReducer = (state = defaultState, action) => {
             ...state.questions.data,
             [action.questionIndex]: {
               ...state.questions.data[action.questionIndex],
-              isCorrect: false
+              answer: action.answer
             }
           }
         }
