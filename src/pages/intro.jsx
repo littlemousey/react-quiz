@@ -22,6 +22,12 @@ class Intro extends Component {
     this.props.history.push("/options");
   };
 
+  _handleKeyUp = event => {
+    if (event.key === "Enter") {
+      this.handleClick();
+    }
+  };
+
   render() {
     return (
       <div>
@@ -32,6 +38,7 @@ class Intro extends Component {
             type="text"
             value={this.state.name}
             onChange={this.handleChange}
+            onKeyUp={this._handleKeyUp}
           />
         </label>
         <div>

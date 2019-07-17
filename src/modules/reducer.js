@@ -9,7 +9,9 @@ const defaultState = {
     data: {}
   },
   currentQuestion: 0,
-  gifUrl: ""
+  gifUrl: "",
+  questionHasBeenAnswered: false,
+  isAnswerCorrect: false
 };
 
 const quizReducer = (state = defaultState, action) => {
@@ -60,6 +62,20 @@ const quizReducer = (state = defaultState, action) => {
       return {
         ...state,
         quizType: action.quizType
+      };
+    }
+
+    case ACTIONS.Types.QUESTION_ANSWERED: {
+      return {
+        ...state,
+        questionHasBeenAnswered: action.questionHasBeenAnswered
+      };
+    }
+
+    case ACTIONS.Types.QUESTION_ANSWERED_CORRECTLY: {
+      return {
+        ...state,
+        isAnswerCorrect: action.isAnswerCorrect
       };
     }
 

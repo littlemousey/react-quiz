@@ -1,5 +1,6 @@
 import { createStore, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
+import { composeWithDevTools } from "redux-devtools-extension";
 import reducer from "./reducer";
 
 // Logger with default options
@@ -9,7 +10,7 @@ export default function configureStore(initialState) {
   const store = createStore(
     reducer,
     initialState,
-    applyMiddleware(logger, thunk)
+    composeWithDevTools(applyMiddleware(logger, thunk))
   );
   return store;
 }

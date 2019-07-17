@@ -9,7 +9,9 @@ const Types = {
   FETCH_QUESTIONS_ERR: "FETCH_QUESTIONS_ERR",
   ANSWER: "ANSWER",
   SET_QUIZ_TYPE: "SET_QUIZ_TYPE",
-  SET_GIF: "SET_GIF"
+  SET_GIF: "SET_GIF",
+  QUESTION_ANSWERED: "QUESTION_ANSWERED",
+  QUESTION_ANSWERED_CORRECTLY: "QUESTION_ANSWERED_CORRECTLY"
 };
 
 const setName = name => ({
@@ -38,7 +40,6 @@ function fetchQuestions() {
         result.data.results.forEach((item, i) => {
           const decodedQuestion = decodeHTML(item.question); // sanatize question
           const question = { ...item, question: decodedQuestion, id: i };
-          console.log("sanatized: ", question);
           question.answers = shuffle([
             ...question.incorrect_answers,
             question.correct_answer
@@ -54,7 +55,7 @@ function fetchQuestions() {
   };
 }
 
-async function fetchGif() {
+async function fetchGif(isCorrectAnswer) {
   const giphyData = await Axios.get(
     "https://api.giphy.com/v1/gifs/search?api_key=dQVDGFWr8t7MnnyMg1Jbmb2pNlTD3pOj&q=wrong&limit=25&offset=0&rating=G&lang=en"
   );
@@ -65,9 +66,10 @@ async function fetchGif() {
 
 function answerQuestion(questionIndex, answer) {
   return async function(dispatch) {
+    // is answer correct?
     dispatch({ type: Types.ANSWER, questionIndex, answer });
-
-    const gifUrl = await fetchGif();
+    // dispatch({ type: Types.CORRECT_ANSWER })
+    const gifUrl = await fetchGif(true);
 
     dispatch({ type: Types.SET_GIF, gifUrl });
   };
@@ -77,10 +79,36 @@ const setQuizType = quizType => ({
   type: Types.SET_QUIZ_TYPE,
   quizType
 });
+
+const questionAnswered = questionHasBeenAnswered => ({
+  type: Types.QUESTION_ANSWERED,
+  questionHasBeenAnswered
+});
+
+const determineQuestionAnsweredCorrectly = answer => (dispatch, getState) => {
+  const {
+    questions: { data },
+    currentQuestion
+  } = getState();
+  if (answer === data[currentQuestion].correct_answer) {
+    dispatch({
+      type: Types.QUESTION_ANSWERED_CORRECTLY,
+      isAnswerCorrect: true
+    });
+  } else {
+    dispatch({
+      type: Types.QUESTION_ANSWERED_CORRECTLY,
+      isAnswerCorrect: false
+    });
+  }
+};
+
 export default {
   setName,
   setQuizType,
   fetchQuestions,
   answerQuestion,
+  questionAnswered,
+  determineQuestionAnsweredCorrectly,
   Types
 };

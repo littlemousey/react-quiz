@@ -14,31 +14,11 @@ const StyledCard = styled(Card)`
   padding: 10px;
 `;
 
-const mapStateToProps = state => ({
-  gifUrl: state.gifUrl
-});
-
-const mapDispatchToProps = dispatch => ({
-  answerQuestion: (index, answer) =>
-    dispatch(ACTIONS.answerQuestion(index, answer))
-});
-
 class Question extends Component {
-  // async fetchGif() {
-  //   await new Promise(resolve => setTimeout(resolve, 500));
-  //   this.setState({ giphyUrl: "http://lorempixel.com/400/200/" });
-  // }
-
-  // componentDidUpdate(prevProps) {
-  //   if (prevProps.answer !== this.props.answer) {
-  //     this.fetchGif();
-  //   }
-  // }
-
   render() {
     const {
-      currentQuestionIndex,
-      answerQuestion,
+      // currentQuestionIndex,
+      // answerQuestion,
       options,
       question,
       answer,
@@ -54,7 +34,7 @@ class Question extends Component {
         message = (
           <div>
             <h2>Wrong Answer</h2>
-            <img src={this.props.gifUrl} alt="wrong answer" />
+            {/* <img src={this.props.gifUrl} alt="wrong answer" /> */}
           </div>
         );
       }
@@ -62,7 +42,6 @@ class Question extends Component {
 
     return (
       <div>
-        {message}
         <StyledCard>
           <CardContent>
             <Typography variant="h5" component="h2">
@@ -75,7 +54,9 @@ class Question extends Component {
                 <Button
                   variant="contained"
                   color="primary"
-                  onClick={() => answerQuestion(currentQuestionIndex, option)}
+                  onClick={() => {
+                    this.props.answerQuestion(option);
+                  }}
                 >
                   {option}
                 </Button>
@@ -83,12 +64,10 @@ class Question extends Component {
             ))}
           </Grid>
         </StyledCard>
+        {message}
       </div>
     );
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Question);
+export default Question;
