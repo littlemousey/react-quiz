@@ -10,7 +10,8 @@ const mapStateToProps = state => ({
   questions: state.questions,
   currentQuestion: state.currentQuestion,
   questionHasBeenAnswered: state.questionHasBeenAnswered,
-  isAnswerCorrect: state.isAnswerCorrect
+  isAnswerCorrect: state.isAnswerCorrect,
+  gifUrl: state.gifUrl
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -56,7 +57,10 @@ class Quiz extends Component {
           answerQuestion={this.determineAnswerIsCorrect}
         />
         {this.props.questionHasBeenAnswered && (
-          <QuestionAnswer isAnswerCorrect={this.props.isAnswerCorrect} />
+          <QuestionAnswer
+            isAnswerCorrect={this.props.isAnswerCorrect}
+            gifUrl={this.props.gifUrl}
+          />
         )}
       </div>
     );

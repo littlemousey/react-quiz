@@ -56,23 +56,20 @@ function fetchQuestions() {
 }
 
 async function fetchGif(isCorrectAnswer) {
-  const giphyData = await Axios.get(
-    "https://api.giphy.com/v1/gifs/search?api_key=dQVDGFWr8t7MnnyMg1Jbmb2pNlTD3pOj&q=wrong&limit=25&offset=0&rating=G&lang=en"
-  );
+  debugger;
+  let url = null;
+  if (isCorrectAnswer) {
+    url =
+      "https://api.giphy.com/v1/gifs/search?api_key=dQVDGFWr8t7MnnyMg1Jbmb2pNlTD3pOj&q=right&limit=25&offset=0&rating=G&lang=en";
+  } else {
+    url =
+      "https://api.giphy.com/v1/gifs/search?api_key=dQVDGFWr8t7MnnyMg1Jbmb2pNlTD3pOj&q=wrong&limit=25&offset=0&rating=G&lang=en";
+  }
+  const giphyData = await Axios.get(`${url}`);
+  debugger;
   const max = giphyData.data.pagination.count - 1;
   const randomNumber = Math.floor(Math.random() * (max - 0 + 1)) + 0;
   return giphyData.data.data[randomNumber].images.fixed_height.url;
-}
-
-function answerQuestion(questionIndex, answer) {
-  return async function(dispatch) {
-    // is answer correct?
-    dispatch({ type: Types.ANSWER, questionIndex, answer });
-    // dispatch({ type: Types.CORRECT_ANSWER })
-    const gifUrl = await fetchGif(true);
-
-    dispatch({ type: Types.SET_GIF, gifUrl });
-  };
 }
 
 const setQuizType = quizType => ({
@@ -85,29 +82,35 @@ const questionAnswered = questionHasBeenAnswered => ({
   questionHasBeenAnswered
 });
 
-const determineQuestionAnsweredCorrectly = answer => (dispatch, getState) => {
-  const {
-    questions: { data },
-    currentQuestion
-  } = getState();
-  if (answer === data[currentQuestion].correct_answer) {
-    dispatch({
-      type: Types.QUESTION_ANSWERED_CORRECTLY,
-      isAnswerCorrect: true
-    });
-  } else {
-    dispatch({
-      type: Types.QUESTION_ANSWERED_CORRECTLY,
-      isAnswerCorrect: false
-    });
-  }
-};
+function determineQuestionAnsweredCorrectly(answer) {
+  return async function(dispatch, getState) {
+    const {
+      questions: { data },
+      currentQuestion
+    } = getState();
+    if (answer === data[currentQuestion].correct_answer) {
+      dispatch({
+        type: Types.QUESTION_ANSWERED_CORRECTLY,
+        isAnswerCorrect: true
+      });
+
+      const gifUrl = await fetchGif(true);
+      dispatch({ type: Types.SET_GIF, gifUrl });
+    } else {
+      dispatch({
+        type: Types.QUESTION_ANSWERED_CORRECTLY,
+        isAnswerCorrect: false
+      });
+      const gifUrl = await fetchGif(false);
+      dispatch({ type: Types.SET_GIF, gifUrl });
+    }
+  };
+}
 
 export default {
   setName,
   setQuizType,
   fetchQuestions,
-  answerQuestion,
   questionAnswered,
   determineQuestionAnsweredCorrectly,
   Types

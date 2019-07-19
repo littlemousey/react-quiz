@@ -1,9 +1,24 @@
 import React from "react";
+import Typography from "@material-ui/core/Typography";
 
-export default function QuestionAnswer({ isAnswerCorrect }) {
+export default function QuestionAnswer({ isAnswerCorrect }, props) {
   if (isAnswerCorrect) {
-    return <h1>Correct</h1>;
+    return (
+      <div>
+        <Typography variant="h5" component="h2">
+          Correct
+        </Typography>
+        <img src={props.gifUrl} alt="Right answer giphy" />
+      </div>
+    );
   } else {
-    return <h1>too bad</h1>;
+    return (
+      <div>
+        <Typography variant="h5" component="h2">
+          Too bad!
+        </Typography>
+        <img src={props.gifUrl} alt="Wrong answer giphy" />
+      </div>
+    );
   }
 }

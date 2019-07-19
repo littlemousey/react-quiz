@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import ACTIONS from "../modules/action";
-import { connect } from "react-redux";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
@@ -16,29 +14,7 @@ const StyledCard = styled(Card)`
 
 class Question extends Component {
   render() {
-    const {
-      // currentQuestionIndex,
-      // answerQuestion,
-      options,
-      question,
-      answer,
-      correctAnswer
-    } = this.props;
-
-    let message = null;
-
-    if (answer) {
-      if (answer === correctAnswer) {
-        message = <h2>Correct</h2>;
-      } else {
-        message = (
-          <div>
-            <h2>Wrong Answer</h2>
-            {/* <img src={this.props.gifUrl} alt="wrong answer" /> */}
-          </div>
-        );
-      }
-    }
+    const { options, question } = this.props;
 
     return (
       <div>
@@ -64,7 +40,6 @@ class Question extends Component {
             ))}
           </Grid>
         </StyledCard>
-        {message}
       </div>
     );
   }
