@@ -1,48 +1,35 @@
-import ACTIONS from "./action";
-
-const defaultState = {
-  namePlayer: "",
-  quizType: "",
-  questions: {
-    error: null,
-    loading: false,
-    data: {}
-  },
-  currentQuestion: 0,
-  gifUrl: "",
-  questionHasBeenAnswered: false,
-  isAnswerCorrect: false
-};
+import { Types } from "./actionTypes";
+import { defaultState } from "./defaultState";
 
 const quizReducer = (state = defaultState, action) => {
   switch (action.type) {
-    case ACTIONS.Types.SET_NAME: {
+    case Types.SET_NAME: {
       return {
         ...state,
         namePlayer: action.name
       };
     }
-    case ACTIONS.Types.FETCH_QUESTIONS_SUC: {
+    case Types.FETCH_QUESTIONS_SUC: {
       return {
         ...state,
         questions: { loading: false, data: action.questions }
       };
     }
-    case ACTIONS.Types.FETCH_QUESTIONS_ERR: {
+    case Types.FETCH_QUESTIONS_ERR: {
       return {
         ...state,
         questions: { loading: false, data: null, error: action.error }
       };
     }
-    case ACTIONS.Types.CHANGE_NAME: {
+    case Types.CHANGE_NAME: {
       return { ...state, namePlayer: action.name };
     }
 
-    case ACTIONS.Types.SET_GIF: {
+    case Types.SET_GIF: {
       return { ...state, gifUrl: action.gifUrl };
     }
 
-    case ACTIONS.Types.ANSWER: {
+    case Types.ANSWER: {
       return {
         ...state,
         questions: {
@@ -58,24 +45,31 @@ const quizReducer = (state = defaultState, action) => {
       };
     }
 
-    case ACTIONS.Types.SET_QUIZ_TYPE: {
+    case Types.SET_QUIZ_TYPE: {
       return {
         ...state,
         quizType: action.quizType
       };
     }
 
-    case ACTIONS.Types.QUESTION_ANSWERED: {
+    case Types.QUESTION_ANSWERED: {
       return {
         ...state,
         questionHasBeenAnswered: action.questionHasBeenAnswered
       };
     }
 
-    case ACTIONS.Types.QUESTION_ANSWERED_CORRECTLY: {
+    case Types.QUESTION_ANSWERED_CORRECTLY: {
       return {
         ...state,
         isAnswerCorrect: action.isAnswerCorrect
+      };
+    }
+
+    case Types.SET_CURRENT_QUESTION: {
+      return {
+        ...state,
+        currentQuestion: state.currentQuestion + 1
       };
     }
 

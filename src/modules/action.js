@@ -1,34 +1,19 @@
 import Axios from "axios";
 import decodeHTML from "../middleware/decodeHTML";
-
-// types of action
-const Types = {
-  SET_NAME: "SET_NAME",
-  ADD_QUESTION: "ADD_QUESTION",
-  FETCH_QUESTIONS_SUC: "FETCH_QUESTIONS_SUC",
-  FETCH_QUESTIONS_ERR: "FETCH_QUESTIONS_ERR",
-  ANSWER: "ANSWER",
-  SET_QUIZ_TYPE: "SET_QUIZ_TYPE",
-  SET_GIF: "SET_GIF",
-  QUESTION_ANSWERED: "QUESTION_ANSWERED",
-  QUESTION_ANSWERED_CORRECTLY: "QUESTION_ANSWERED_CORRECTLY"
-};
+import { shuffle } from "../utils/shuffle";
+import { Types } from "./actionTypes";
 
 const setName = name => ({
   type: Types.SET_NAME,
   name
 });
 
+const setQuestion = () => ({
+  type: Types.SET_CURRENT_QUESTION
+});
+
 function getQuestions() {
   return Axios.get("https://opentdb.com/api.php?amount=10");
-}
-
-function shuffle(a) {
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
 }
 
 function fetchQuestions() {
@@ -111,5 +96,5 @@ export default {
   fetchQuestions,
   questionAnswered,
   determineQuestionAnsweredCorrectly,
-  Types
+  setQuestion
 };

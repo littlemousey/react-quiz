@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import Question from "../components/question";
 import Typography from "@material-ui/core/Typography";
 import QuestionAnswer from "../components/questionAnswer";
+import NextQuestion from "../components/nextQuestion";
 import PropTypes from "prop-types";
 
 const mapStateToProps = state => ({
@@ -19,7 +20,8 @@ const mapDispatchToProps = dispatch => ({
   questionAnswered: questionHasBeenAnswered =>
     dispatch(ACTIONS.questionAnswered(questionHasBeenAnswered)),
   checkAnswerCorrect: answer =>
-    dispatch(ACTIONS.determineQuestionAnsweredCorrectly(answer))
+    dispatch(ACTIONS.determineQuestionAnsweredCorrectly(answer)),
+  increaseQuestionNumber: () => dispatch(ACTIONS.setQuestion())
 });
 
 class Quiz extends Component {
@@ -35,6 +37,12 @@ class Quiz extends Component {
   determineAnswerIsCorrect = answer => {
     this.props.questionAnswered(true);
     this.props.checkAnswerCorrect(answer);
+  };
+
+  goToNextQuestion = () => {
+    this.props.questionAnswered(false);
+    this.props.increaseQuestionNumber();
+    this.props.checkAnswerCorrect(""); // answer will be false
   };
 
   render() {
@@ -62,6 +70,7 @@ class Quiz extends Component {
             gifUrl={this.props.gifUrl}
           />
         )}
+        <NextQuestion />
       </div>
     );
   }
