@@ -56,7 +56,6 @@ function fetchQuestions() {
 }
 
 async function fetchGif(isCorrectAnswer) {
-  debugger;
   let url = null;
   if (isCorrectAnswer) {
     url =
@@ -66,7 +65,6 @@ async function fetchGif(isCorrectAnswer) {
       "https://api.giphy.com/v1/gifs/search?api_key=dQVDGFWr8t7MnnyMg1Jbmb2pNlTD3pOj&q=wrong&limit=25&offset=0&rating=G&lang=en";
   }
   const giphyData = await Axios.get(`${url}`);
-  debugger;
   const max = giphyData.data.pagination.count - 1;
   const randomNumber = Math.floor(Math.random() * (max - 0 + 1)) + 0;
   return giphyData.data.data[randomNumber].images.fixed_height.url;
