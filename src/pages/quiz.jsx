@@ -58,19 +58,26 @@ class Quiz extends Component {
         <Typography variant="h2" component="h1">
           Quiz
         </Typography>
+        <Typography variant="h5" component="h2">
+          Question number {currentQuestionIndex + 1}
+        </Typography>
         <Question
           question={currentQuestion.question}
-          options={currentQuestion.answers}
+          answers={currentQuestion.answers}
+          correctAnswer={currentQuestion.correct_answer}
           currentQuestionIndex={currentQuestionIndex}
           answerQuestion={this.determineAnswerIsCorrect}
+          questionAnswered={this.props.isAnswerCorrect}
         />
         {this.props.questionHasBeenAnswered && (
-          <QuestionAnswer
-            isAnswerCorrect={this.props.isAnswerCorrect}
-            gifUrl={this.props.gifUrl}
-          />
+          <React.Fragment>
+            <QuestionAnswer
+              isAnswerCorrect={this.props.isAnswerCorrect}
+              gifUrl={this.props.gifUrl}
+            />
+            <NextQuestion goToNext={this.goToNextQuestion} />
+          </React.Fragment>
         )}
-        <NextQuestion />
       </div>
     );
   }

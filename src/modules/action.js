@@ -1,7 +1,8 @@
 import Axios from "axios";
 import decodeHTML from "../middleware/decodeHTML";
-import { shuffle } from "../utils/shuffle";
+import { shuffleArray } from "../utils/shuffleArray";
 import { Types } from "./actionTypes";
+import { mergeTwoArraysToOneDecodedArray } from "../utils/mergeTwoArraysToOneDecodedArray";
 
 const setName = name => ({
   type: Types.SET_NAME,
@@ -12,8 +13,8 @@ const setQuestion = () => ({
   type: Types.SET_CURRENT_QUESTION
 });
 
-function getQuestions() {
-  return Axios.get("https://opentdb.com/api.php?amount=10");
+async function getQuestions() {
+  return await Axios.get("https://opentdb.com/api.php?amount=10");
 }
 
 function fetchQuestions() {
@@ -21,14 +22,21 @@ function fetchQuestions() {
     return getQuestions()
       .then(result => {
         const questions = {};
-
         result.data.results.forEach((item, i) => {
           const decodedQuestion = decodeHTML(item.question); // sanatize question
-          const question = { ...item, question: decodedQuestion, id: i };
-          question.answers = shuffle([
-            ...question.incorrect_answers,
-            question.correct_answer
-          ]);
+
+          const question = {
+            ...item,
+            question: decodedQuestion,
+            id: i
+          };
+
+          const possibleAnswers = mergeTwoArraysToOneDecodedArray(
+            question.incorrect_answers,
+            [question.correct_answer]
+          );
+          // add new property answers
+          question.answers = shuffleArray(possibleAnswers);
           questions[question.id] = question;
         });
 
