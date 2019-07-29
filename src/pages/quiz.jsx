@@ -67,7 +67,7 @@ class Quiz extends Component {
           correctAnswer={currentQuestion.correct_answer}
           currentQuestionIndex={currentQuestionIndex}
           answerQuestion={this.determineAnswerIsCorrect}
-          questionAnswered={this.props.isAnswerCorrect}
+          questionAnswered={this.props.questionHasBeenAnswered}
         />
         {this.props.questionHasBeenAnswered && (
           <React.Fragment>

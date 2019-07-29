@@ -6,7 +6,7 @@ export const defaultState = {
     loading: false,
     data: {}
   },
-  currentQuestion: 0,
+  currentQuestion: 1,
   gifUrl: "",
   questionHasBeenAnswered: false,
   isAnswerCorrect: false

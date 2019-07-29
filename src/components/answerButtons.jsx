@@ -11,19 +11,28 @@ export default function AnswerButtons({
 }) {
   const GreenButton = withStyles({
     root: {
-      background: "green"
+      backgroundColor: "#27ae60",
+      "&:hover": {
+        backgroundColor: "#2ecc71"
+      }
     }
   })(Button);
 
-  return (
-    <Grid container direction="row" justify="center" spacing={3}>
-      {answers.map(answer => {
-        const answeredCorrectly = answer === correctAnswer;
-        return (
-          <Grid item key={answer}>
-            {questionAnswered && answeredCorrectly ? (
-              <GreenButton variant="contained">{answer}</GreenButton>
-            ) : (
+  const RedButton = withStyles({
+    root: {
+      backgroundColor: "#c0392b",
+      "&:hover": {
+        backgroundColor: "#e74c3c"
+      }
+    }
+  })(Button);
+
+  if (!questionAnswered) {
+    return (
+      <Grid container direction="row" justify="center" spacing={3}>
+        {answers.map(answer => {
+          return (
+            <Grid item key={answer}>
               <Button
                 variant="contained"
                 color={"primary"}
@@ -33,10 +42,27 @@ export default function AnswerButtons({
               >
                 {answer}
               </Button>
-            )}
-          </Grid>
-        );
-      })}
-    </Grid>
-  );
+            </Grid>
+          );
+        })}
+      </Grid>
+    );
+  } else {
+    return (
+      <Grid container direction="row" justify="center" spacing={3}>
+        {answers.map(answer => {
+          const answeredCorrectly = answer === correctAnswer;
+          return (
+            <Grid item key={answer}>
+              {questionAnswered && answeredCorrectly ? (
+                <GreenButton variant="contained">{answer}</GreenButton>
+              ) : (
+                <RedButton variant="contained">{answer}</RedButton>
+              )}
+            </Grid>
+          );
+        })}
+      </Grid>
+    );
+  }
 }
