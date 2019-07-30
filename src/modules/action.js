@@ -79,7 +79,7 @@ function determineQuestionAnsweredCorrectly(answer) {
       questions: { data },
       currentQuestion
     } = getState();
-    if (answer === data[currentQuestion].correct_answer) {
+    if (answer === decodeHTML(data[currentQuestion].correct_answer)) {
       dispatch({
         type: Types.QUESTION_ANSWERED_CORRECTLY,
         isAnswerCorrect: true

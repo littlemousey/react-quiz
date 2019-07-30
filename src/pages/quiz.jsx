@@ -4,8 +4,9 @@ import { connect } from "react-redux";
 import Question from "../components/question";
 import Typography from "@material-ui/core/Typography";
 import QuestionAnswer from "../components/questionAnswer";
-import NextQuestion from "../components/nextQuestion";
+import NextButton from "../components/nextButton";
 import PropTypes from "prop-types";
+import decodeHTML from "../middleware/decodeHTML";
 
 const mapStateToProps = state => ({
   questions: state.questions,
@@ -64,7 +65,7 @@ class Quiz extends Component {
         <Question
           question={currentQuestion.question}
           answers={currentQuestion.answers}
-          correctAnswer={currentQuestion.correct_answer}
+          correctAnswer={decodeHTML(currentQuestion.correct_answer)}
           currentQuestionIndex={currentQuestionIndex}
           answerQuestion={this.determineAnswerIsCorrect}
           questionAnswered={this.props.questionHasBeenAnswered}
@@ -75,7 +76,10 @@ class Quiz extends Component {
               isAnswerCorrect={this.props.isAnswerCorrect}
               gifUrl={this.props.gifUrl}
             />
-            <NextQuestion goToNext={this.goToNextQuestion} />
+            <NextButton
+              currentQuestion={this.props.currentQuestion}
+              goToNext={this.goToNextQuestion}
+            />
           </React.Fragment>
         )}
       </div>
