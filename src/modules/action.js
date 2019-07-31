@@ -73,6 +73,16 @@ const questionAnswered = questionHasBeenAnswered => ({
   questionHasBeenAnswered
 });
 
+const setAnswerToFalse = () => ({
+  type: Types.QUESTION_ANSWERED_CORRECTLY,
+  isAnswerCorrect: false
+});
+
+const resetGiphy = () => ({
+  type: Types.SET_GIF,
+  gifUrl: ""
+});
+
 function determineQuestionAnsweredCorrectly(answer) {
   return async function(dispatch, getState) {
     const {
@@ -87,6 +97,7 @@ function determineQuestionAnsweredCorrectly(answer) {
 
       const gifUrl = await fetchGif(true);
       dispatch({ type: Types.SET_GIF, gifUrl });
+      dispatch({ type: Types.ADD_RESULT_DATA, answer });
     } else {
       dispatch({
         type: Types.QUESTION_ANSWERED_CORRECTLY,
@@ -94,6 +105,7 @@ function determineQuestionAnsweredCorrectly(answer) {
       });
       const gifUrl = await fetchGif(false);
       dispatch({ type: Types.SET_GIF, gifUrl });
+      dispatch({ type: Types.ADD_RESULT_DATA, answer });
     }
   };
 }
@@ -104,5 +116,7 @@ export default {
   fetchQuestions,
   questionAnswered,
   determineQuestionAnsweredCorrectly,
+  setAnswerToFalse,
+  resetGiphy,
   setQuestion
 };

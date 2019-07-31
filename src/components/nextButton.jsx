@@ -4,9 +4,7 @@ import Button from "@material-ui/core/Button";
 import { withRouter } from "react-router-dom";
 
 function NextButton({ goToNext, currentQuestion, history }) {
-  console.log(history);
-  console.log(currentQuestion);
-  if (currentQuestion >= 2) {
+  if (currentQuestion >= 9) {
     return (
       <div>
         <Button

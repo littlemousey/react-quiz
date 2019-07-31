@@ -1,5 +1,6 @@
 import { Types } from "./actionTypes";
 import { defaultState } from "./defaultState";
+import decodeHTML from "../middleware/decodeHTML";
 
 const quizReducer = (state = defaultState, action) => {
   switch (action.type) {
@@ -29,21 +30,21 @@ const quizReducer = (state = defaultState, action) => {
       return { ...state, gifUrl: action.gifUrl };
     }
 
-    case Types.ANSWER: {
-      return {
-        ...state,
-        questions: {
-          ...state.questions,
-          data: {
-            ...state.questions.data,
-            [action.questionIndex]: {
-              ...state.questions.data[action.questionIndex],
-              answer: action.answer
-            }
-          }
-        }
-      };
-    }
+    // case Types.ANSWER: {
+    //   return {
+    //     ...state,
+    //     questions: {
+    //       ...state.questions,
+    //       data: {
+    //         ...state.questions.data,
+    //         [action.questionIndex]: {
+    //           ...state.questions.data[action.questionIndex],
+    //           answer: action.answer
+    //         }
+    //       }
+    //     }
+    //   };
+    // }
 
     case Types.SET_QUIZ_TYPE: {
       return {
@@ -70,6 +71,23 @@ const quizReducer = (state = defaultState, action) => {
       return {
         ...state,
         currentQuestion: state.currentQuestion + 1
+      };
+    }
+
+    case Types.ADD_RESULT_DATA: {
+      return {
+        ...state,
+        resultsData: [
+          ...state.resultsData,
+          {
+            question: state.questions.data[state.currentQuestion].question,
+            answer: action.answer,
+            rightAnswer: decodeHTML(
+              state.questions.data[state.currentQuestion].correct_answer
+            ),
+            answeredCorrectly: state.isAnswerCorrect
+          }
+        ]
       };
     }
 

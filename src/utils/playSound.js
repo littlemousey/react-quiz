@@ -9,6 +9,6 @@ export default async function Sound(isAnswerCorrect) {
   try {
     await audio.play();
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 }

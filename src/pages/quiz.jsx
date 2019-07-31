@@ -22,7 +22,9 @@ const mapDispatchToProps = dispatch => ({
     dispatch(ACTIONS.questionAnswered(questionHasBeenAnswered)),
   checkAnswerCorrect: answer =>
     dispatch(ACTIONS.determineQuestionAnsweredCorrectly(answer)),
-  increaseQuestionNumber: () => dispatch(ACTIONS.setQuestion())
+  increaseQuestionNumber: () => dispatch(ACTIONS.setQuestion()),
+  setAnswerToFalse: () => dispatch(ACTIONS.setAnswerToFalse()),
+  resetGiphy: () => dispatch(ACTIONS.resetGiphy())
 });
 
 class Quiz extends Component {
@@ -43,7 +45,8 @@ class Quiz extends Component {
   goToNextQuestion = () => {
     this.props.questionAnswered(false);
     this.props.increaseQuestionNumber();
-    this.props.checkAnswerCorrect(""); // answer will be false
+    this.props.setAnswerToFalse();
+    this.props.resetGiphy();
   };
 
   render() {

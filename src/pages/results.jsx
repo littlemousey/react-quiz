@@ -1,28 +1,51 @@
 import React, { Component } from "react";
-import ACTIONS from "../modules/action";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 
 const mapStateToProps = state => ({
-  namePlayer: state.namePlayer
+  namePlayer: state.namePlayer,
+  resultsData: state.resultsData
 });
 
-const mapDispatchToProps = dispatch => ({
-  setName: name => dispatch(ACTIONS.setName(name))
-});
+const mapDispatchToProps = dispatch => ({});
 
+const userAnswerFeedback = answeredCorrectly => {
+  if (answeredCorrectly) {
+    return "right";
+  } else {
+    return "wrong";
+  }
+};
 class Results extends Component {
   render() {
+    const { namePlayer, resultsData } = this.props;
     return (
       <div>
         <Typography variant="h3" component="h2">
-          Hi {this.props.namePlayer}!
+          Hi {namePlayer}!
         </Typography>
         <Typography variant="h3" component="h2">
           Here are your results
         </Typography>
+        {resultsData.map((result, index) => {
+          return (
+            <div key={index}>
+              <Typography variant="h5" component="h3">
+                {result.question}
+              </Typography>
+              <p>Your answer: {result.answer}</p>
+              <p>Correct answer: {result.rightAnswer}</p>
+              <p>
+                Your answer was{" "}
+                <span style={{ fontWeight: "bold" }}>
+                  {userAnswerFeedback(result.answeredCorrectly)}
+                </span>
+              </p>
+            </div>
+          );
+        })}
         <Button
           variant="contained"
           color="primary"
