@@ -17,17 +17,6 @@ class App extends Component {
       <div className="App">
         <ReduxProvider store={reduxStore}>
           <Router>
-            <nav>
-              <div>
-                <span>
-                  <Link to="/">Home</Link> |
-                </span>
-                <span>
-                  <Link to="/quiz/">Quiz</Link>
-                </span>
-              </div>
-            </nav>
-
             <Route exact path="/" component={Intro} />
             <Route path="/options" component={gameConfig} />
             <Route path="/quiz" component={Quiz} />
