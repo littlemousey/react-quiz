@@ -3,13 +3,16 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
+import ACTIONS from "../modules/action";
 
 const mapStateToProps = state => ({
   namePlayer: state.namePlayer,
   resultsData: state.resultsData
 });
 
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = dispatch => ({
+  restartGame: () => dispatch(ACTIONS.restartGame())
+});
 
 const userAnswerFeedback = answeredCorrectly => {
   if (answeredCorrectly) {

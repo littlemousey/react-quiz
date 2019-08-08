@@ -91,6 +91,14 @@ const quizReducer = (state = defaultState, action) => {
       };
     }
 
+    case Types.RESTART_GAME: {
+      return {
+        ...defaultState,
+        namePlayer: state.namePlayer,
+        quizType: state.quizType
+      };
+    }
+
     default:
       return state;
   }

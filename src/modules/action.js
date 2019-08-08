@@ -110,6 +110,9 @@ function determineQuestionAnsweredCorrectly(answer) {
   };
 }
 
+const restartGame = () => ({
+  type: Types.RESTART_GAME
+});
 export default {
   setName,
   setQuizType,
@@ -118,5 +121,6 @@ export default {
   determineQuestionAnsweredCorrectly,
   setAnswerToFalse,
   resetGiphy,
-  setQuestion
+  setQuestion,
+  restartGame
 };
